@@ -21,6 +21,10 @@ const Categories = () => {
     );
   }, [categories]);
 
+  const handleCategory = () => {
+    
+  }
+
   return (
     <div className='categories container'>
       <div className='categories-title'>
@@ -33,7 +37,9 @@ const Categories = () => {
       <div className='categories-items'>
         {sortedCategories.length > 0 &&
           sortedCategories.map((category) => (
-            <CategoriesItem key={category._id} category={category} />
+            <Link to='/catalog/category' className='category-link' key={category._id}>
+              <CategoriesItem key={category._id} category={category} />
+            </Link>
           ))}
       </div>
     </div>

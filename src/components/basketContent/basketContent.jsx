@@ -4,8 +4,11 @@ import BasketItem from '../UI/BasketItem/BasketItem.jsx';
 import Ava from '../icons/Кухонные.svg';
 import '../../styles/components/basket.scss';
 import { UseBasket } from '../../context/BasketContext.jsx';
+import {useDispatch, useSelector} from "react-redux";
 
 const BasketContent = () => {
+  const dispatcher = useDispatch();
+  const { cart } = useSelector(state => state.cart);
   const [click, setclick] = useState(false);
   const { basket } = UseBasket();
   console.log(basket);
@@ -17,6 +20,13 @@ const BasketContent = () => {
   const closeAsk = () => {
     setclick(false);
   };
+
+  const clearCart = () => {
+    closeAsk()
+
+    dispatcher.cart.removeAllCart()
+  }
+
   return (
     <>
       <div className='delete'>
@@ -27,7 +37,7 @@ const BasketContent = () => {
           <div className='ask'>
             <p>Вы действительно хотите очистить корзину?</p>
             <div className='btns'>
-              <button className='clear'>Очистить</button>
+              <button className='clear' onClick={clearCart}>Очистить</button>
               <button className='cencel' onClick={closeAsk}>
                 Отмена
               </button>
@@ -37,8 +47,8 @@ const BasketContent = () => {
       </div>
       <div className='content'>
         <div className='content_left'>
-          {basket.map((el) => (
-            <BasketItem el={el} key={el.id} />
+          {cart.map((el) => (
+            <BasketItem el={el} key={el.product.id} />
           ))}
         </div>
         <div className='content_right'>

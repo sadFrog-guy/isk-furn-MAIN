@@ -1,15 +1,15 @@
 import React from 'react';
 import BasketContent from '../components/basketContent/basketContent';
-import { UseBasket } from '../context/BasketContext';
 import BasketIcon from '../components/icons/Shop.svg';
 // import SuccessOrder from '../components/icons/seccess-order.svg';
 
 import '../styles/components/basket.scss';
+import {useSelector} from "react-redux";
 
 const Basket = () => {
-  const { basket } = UseBasket();
+  const { cart } = useSelector(state => state.cart);
 
-  if (basket.length >= 1) {
+  if (cart.length >= 1) {
     return (
       <div className='basket-page-container'>
         <BasketContent />

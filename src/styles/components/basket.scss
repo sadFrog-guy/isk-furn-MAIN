@@ -25,8 +25,7 @@
       position: absolute;
       bottom: -130px;
       left: 0;
-      border-top-right-radius: 14px;
-      border-top-left-radius: 14px;
+      border-radius: 14px;
       background: linear-gradient(0deg, #fff 0%, #fff 100%),
         rgba(179, 179, 179, 0.82);
       box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.15);
@@ -40,7 +39,10 @@
         color: var(--Labels-Primary, #000);
         font-size: 17px;
         font-weight: 600;
-        margin: 15px;
+        border-bottom: 1px solid #9b9b9b;
+        padding: 15px;
+        margin: 0;
+        margin-bottom: -2px;
       }
       .btns {
         display: grid;
@@ -52,10 +54,13 @@
         .clear {
           @include base-btn;
           color: var(--red, #f91616);
+          border: none;
+          border-right: 1px solid #9b9b9b;
         }
         .cencel {
           @include base-btn;
           color: var(--main-color, #0063a9);
+          border: none;
         }
       }
     }

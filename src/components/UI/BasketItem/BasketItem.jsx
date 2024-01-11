@@ -3,29 +3,27 @@ import { ReactComponent as Plus } from '../../icons/plus.svg';
 import { ReactComponent as Minus } from '../../icons/minus.svg';
 import Item from '../../icons/item-logo.svg';
 import './BasketItem.scss';
+import useCart from "../../../hooks/useCart";
+import {useDispatch} from "react-redux";
 
 const BasketItem = ({ el }) => {
   const [options, setOptions] = useState(false);
-  const [quantity, setQuantity] = useState(el.quantity);
+  const dispatch = useDispatch();
 
-  const increament = () => {
-    setQuantity(el.quantity + 1);
-  };
-
-  const decreament = () => {
-    quantity > 1 && setQuantity(el.quantity - 1);
-  };
-
-  useEffect(() => {
-    setQuantity(el.quantity);
-  }, [quantity]);
+  const {
+    preventConextMenu,
+    handleContextMenu,
+    RemoveFromBasket,
+    AddToBasket,
+    isAdded,
+  } = useCart(el.product);
 
   return (
     <div className='item'>
       <div className='top'>
         <img src={Item} alt='#' />
         <div className='title'>
-          <p>{el.name}</p>
+          <p>{el.product.name}</p>
           <p>
             <span>Длина- 170 см.</span>
             <span>Ширина- 70 см.</span>
@@ -46,7 +44,12 @@ const BasketItem = ({ el }) => {
 
               <div className='line'></div>
 
-              <div className='opt third'>Удалить</div>
+              <div
+                  className='opt third'
+                  onClick={() => dispatch.cart.removeFromCart(el.product._id)}
+              >
+                Удалить
+              </div>
 
               <div className='line'></div>
 
@@ -56,13 +59,21 @@ const BasketItem = ({ el }) => {
         </div>
       </div>
       <div className='bottom'>
-        <h2 className='price'>{el.price} с</h2>
+        <h2 className='price'>{el.product.price} с</h2>
         <div className='quantity'>
-          <div onClick={decreament}>
-            <Minus />
+          <div
+              className='mathDiv'
+              onClick={RemoveFromBasket}
+              onContextMenu={preventConextMenu}
+          >
+            <Minus/>
           </div>
-          <h2>{el.quantity}</h2>
-          <div onClick={increament}>
+          <div className='quantity'>{el.count}</div>
+          <div
+              className={`mathDiv ${isAdded ? 'added' : ''}`}
+              onClick={AddToBasket}
+              onContextMenu={handleContextMenu}
+          >
             <Plus />
           </div>
         </div>

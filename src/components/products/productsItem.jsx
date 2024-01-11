@@ -4,39 +4,24 @@ import { ReactComponent as Plus } from '../icons/plus.svg';
 import { ReactComponent as Minus } from '../icons/minus.svg';
 import { ReactComponent as Heart } from '../icons/heart.svg';
 import { ReactComponent as HeartFilled } from '../icons/heart_filled.svg';
-import { UseBasket } from '../../context/BasketContext';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import DetailOfProduct from '../../pages/DetailOfProduct';
-import {useDispatch, useSelector} from "react-redux";
+import useCart from "../../hooks/useCart";
+import { LightTooltip } from "../LightTooltip/LightTooltip";
 
 const ProductsItem = ({ product }) => {
   const navigate = useNavigate();
-  const { addToBasket } = UseBasket();
   const [isHeartActive, setHeartActive] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [testQuantity, setTestQuantity] = useState(0);
 
-  const AddToBasket = (e) => {
-    e.stopPropagation();
-    // if (product.quantity <= 1) {
-    //   addToBasket(product);
-    // } else {
-    //   product.quantity++;
-    // }
-
-    setTestQuantity(testQuantity + 1)
-  };
-
-  const RemoveFromBasket = (e) => {
-    e.stopPropagation();
-    // if (product.quantity !== 1 && product.quantity > 0) {
-    //   product.quantity--;
-    // }
-
-    if (testQuantity !== 1 && testQuantity > 0) {
-      setTestQuantity(testQuantity - 1);
-    }
-  };
+  const {
+    preventContextMenu,
+    handleContextMenu,
+    RemoveFromBasket,
+    AddToBasket,
+    isAdded,
+    countCart
+  } = useCart(product);
 
   const HandleHeartClick = () => {
     setHeartActive(!isHeartActive)
@@ -100,14 +85,23 @@ const ProductsItem = ({ product }) => {
             <div>В комплекте</div>
           </h5>
           <div className='products-item_bottom'>
-            <div className='mathDiv'>
-              <Minus onClick={(e) => RemoveFromBasket(e)} />
+            <div
+                className='mathDiv'
+                onClick={RemoveFromBasket}
+                onContextMenu={preventContextMenu}
+            >
+              <Minus/>
             </div>
-            {/*<div className='quantity'>{product.quantity}</div>*/}
-            <div className='quantity'>{testQuantity}</div>
-            <div className='mathDiv' onClick={(e) => AddToBasket(e)}>
-              <Plus />
-            </div>
+            <div className='quantity'>{countCart}</div>
+            <LightTooltip title="Нажмите ПКМ чтобы добавить товар в корзину" arrow placement="bottom">
+              <div
+                  className={`mathDiv ${isAdded ? 'added' : ''}`}
+                  onClick={AddToBasket}
+                  onContextMenu={handleContextMenu}
+              >
+                <Plus />
+              </div>
+            </LightTooltip>
           </div>
         </div>
       </>

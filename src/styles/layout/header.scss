@@ -150,6 +150,7 @@
       padding: 15px;
       display: flex;
       align-items: center;
+      justify-content: center;
       gap: 10px;
       font-family: "Gilroy-Medium", sans-serif;
       margin-left: 7px;
@@ -227,6 +228,13 @@
       position: relative;
       background-color: #fff;
       border-radius: 50%;
+      cursor: pointer;
+
+      a {
+        display: flex;
+        align-items: center;
+      }
+
       path {
         stroke: #0063a9;
       }

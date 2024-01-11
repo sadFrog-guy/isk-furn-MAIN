@@ -17,6 +17,7 @@
         border-radius: 10px;
         background: #f0f9ff;
         position: relative;
+        overflow: hidden;
 
         .news-top-bubble {
             position: absolute;
@@ -36,8 +37,10 @@
 
             > h3 {
                 font-family: "Gilroy-Medium", sans-serif;
-                font-size: 24px;
+                font-size: 17px;
                 font-weight: 700;
+                margin-bottom: 5px;
+                cursor: pointer;
             }
 
             h4 {

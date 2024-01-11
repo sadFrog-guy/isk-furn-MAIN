@@ -6,6 +6,7 @@ import stories from './models/stories';
 import branches from './models/branches';
 import news from './models/news';
 import orders from './models/orders';
+import cart from './models/cart';
 
 const loadingPlugin = createLoadingPlugin();
 
@@ -18,6 +19,7 @@ const store = init({
     branches,
     news,
     orders,
+    cart
   },
 });
 

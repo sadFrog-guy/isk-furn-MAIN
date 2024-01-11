@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 
 // Import css files
 import Slider from 'react-slick';
@@ -8,24 +8,14 @@ import 'slick-carousel/slick/slick-theme.css';
 import { Link } from 'react-router-dom';
 import api from '../../services/api';
 import { useQuery } from 'react-query';
-import Loader from "../Loader/Loader";
 
 export default function Products({ title }) {
-  // const {
-  //   products: { getProducts },
-  // } = useDispatch();
-  // const products = useSelector((state) => state.products.data);
-
-  // useEffect(() => {
-  //   getProducts('?bestseller=true&page=1');
-  // }, []);
-
   const { data:products, isLoading, isError } = useQuery(
-    'users',
+    'products',
     () => api.get('/api/getProducts?bestseller=true&page=1').then((res) => res.data.objects),
     { enabled: true }
   );
-  console.log(products?.objects);
+
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <p>Error :(</p>;
 

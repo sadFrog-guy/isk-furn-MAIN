@@ -2,7 +2,7 @@ import React from "react"
 import { useDispatch } from "react-redux"
 import { ReactComponent as CloseIcon } from "../icons/close.svg"
 
-const StoriesModal = ({ stories, story, close, selectStory }) => {
+const StoriesModal = ({ stories, active, story, close, selectStory }) => {
     const dispatch = useDispatch()
 
     const setElementWidth = () => {

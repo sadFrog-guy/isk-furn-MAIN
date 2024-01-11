@@ -182,14 +182,9 @@ $animation-duration: 2s;
         transition: all 0.2s;
       }
 
-      svg:hover {
+      .mathDiv > svg:hover {
         border-radius: 1000px;
-        rect {
-          fill: #fff;
-        }
-      }
-      svg:active {
-        border-radius: 1000px;
+
         rect {
           fill: #004f86;
         }
@@ -198,8 +193,18 @@ $animation-duration: 2s;
           fill: #fff;
         }
       }
+
+      .mathDiv.added > svg > rect {
+        fill: #73cb5e;
+      }
+
+      .mathDiv.added > svg > path {
+        fill: #fff;
+      }
+
       .mathDiv {
         height: 44px;
+        transition: all .2s;
       }
       .mathDiv:hover {
         border-radius: 10000px;

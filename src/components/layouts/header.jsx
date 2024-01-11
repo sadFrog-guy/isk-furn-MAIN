@@ -11,14 +11,19 @@ import burgerC from "../icons/burgCatal.svg";
 import { UseBasket } from "../../context/BasketContext";
 import { UseEnterShow } from "../../context/EnterContext";
 import CatalogSidebar from "../CatalogBlock/CatalogSidebar";
+import {useDispatch, useSelector} from "react-redux";
 
 const Header = () => {
-  const { basket } = UseBasket();
   const { setLoginWithPhone, setLoginWithEmail } = UseEnterShow();
   const [searchResults, setSearchResults] = useState([]);
   const [loginModal, setLoginModal] = useState("");
   const location = useLocation();
   const [isShowSidebar, setIsShowSideBar] = useState(false);
+  const dispatch = useDispatch();
+  const { cart } = useSelector(state => state.cart);
+
+  console.log(cart)
+
   function setShow() {
     setIsShowSideBar(!isShowSidebar);
   }
@@ -114,7 +119,7 @@ const Header = () => {
                 <Market />
               </Link>
               <span className="market-count">
-                {basket.length ? basket.length : "0"}
+                {cart.length}
               </span>
             </div>
           </div>

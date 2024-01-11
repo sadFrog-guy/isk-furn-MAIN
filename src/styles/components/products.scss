@@ -1,3 +1,19 @@
+$color1: rgba(201,201,201,1);
+$color2: rgba(255,255,255,1);
+$animation-duration: 2s;
+
+@keyframes changeColorOrder {
+  0% {
+    background-position: 0% 0%;
+  }
+  50% {
+    background-position: 100% 100%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
+}
+
 .products {
   margin: 65px 0;
   .slick-list {
@@ -45,6 +61,9 @@
 
     &_imgdiv {
       position: relative;
+      min-height: 150px;
+      overflow: hidden;
+      border-radius: 9px;
 
       .heart {
         padding: 6px 6px 0 6px;
@@ -69,6 +88,16 @@
         width: 100%;
         height: auto;
         max-height: 180px;
+        user-select: none;
+      }
+
+      .blank {
+        width: 100%;
+        min-height: 150px;
+        background: rgb(201,201,201);
+        background: linear-gradient(55deg, $color1 0%, $color2 100%);
+        background-size: 200% 200%;
+        animation: changeColorOrder $animation-duration infinite;
       }
     }
 
@@ -147,10 +176,6 @@
         justify-content: center;
         align-items: center;
         transition: all 0.2s;
-      }
-      .quantity:hover {
-        border-radius: 1000px;
-        border: 1px solid #dfdfdf;
       }
 
       * {

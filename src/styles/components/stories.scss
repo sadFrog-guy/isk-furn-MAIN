@@ -10,6 +10,7 @@
         top: 0;
         left: 0;
         z-index: 10;
+        cursor: pointer;
     }
 
     &-items {
@@ -38,6 +39,10 @@
     }
     &-item {
         cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+
         img {
             display: inline-block;
             width: 60px;
@@ -47,6 +52,9 @@
         }
         p {
             text-align: center;
+            font-size: 12px;
+            font-weight: 400;
+            font-family: 'Gilroy-Regular';
         }
     }
     &-empty {
@@ -67,6 +75,19 @@
         }
     }
 
+    &-image-wrap {
+        overflow: hidden;
+        height: 475px;
+        border-radius: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        > img {
+            max-height: 100%;
+        }
+    }
+
     &-modal {
         margin-top: 10px;
         position: fixed;
@@ -74,10 +95,9 @@
         left: 50%;
         transform: translate(-50%, -50%);
         background-color: #fff;
-        width: 100%;
-        max-width: 580px;
-        height: 660px;
-        padding: 20px 40px 40px 40px;
+        min-width: 590px;
+        height: 500px;
+        padding: 0 20px 20px 20px;
         border-radius: 15px;
         box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.15);
         z-index: 11;
@@ -89,33 +109,39 @@
         }
 
         img {
-            width: 100%;
-            max-width: 500px;
-            max-height: 500px;
+            max-width: 100%;
             border-radius: 15px;
         }
     }
 
+    &-wrap {
+        display: flex;
+        flex-direction: row-reverse;
+        align-items: center;
+        justify-content: space-between;
+        padding-top: 20px;
+        padding-bottom: 16px;
+        gap: 21px;
+    }
+
     &-container-buttons {
-        margin-top: 30px;
-        margin-bottom: 30px;
         display: flex;
         justify-content: space-between;
         align-items: center;
         gap: 5px;
         flex-wrap: nowrap;
+        width: 100%;
     }
 
     &-button {
-        height: 10px;
-        width: 500px;
+        height: 6px;
         border-radius: 100px;
         background: #d9d9d9;
         cursor: pointer;
+        transition: all .2s;
 
         &-active {
-            height: 10px;
-            width: 500px;
+            height: 6px;
             border-radius: 100px;
             background: var(--main-color, #0063a9);
             cursor: pointer;
@@ -136,7 +162,6 @@
             width: 100%;
             max-width: 480px;
             height: 560px;
-            padding: 20px 40px 40px 40px;
             border-radius: 15px;
             box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.15);
             z-index: 11;

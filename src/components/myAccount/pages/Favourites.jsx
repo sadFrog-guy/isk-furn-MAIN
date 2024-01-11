@@ -20,8 +20,8 @@ const Favourites = () => {
 
   // можете заменять комментарий на 19 и 20 строках чтобы показать\спрятать товары
 
-  // const favourites = new Array(4).fill(favorite);
-  const favourites = []
+  const favourites = new Array(4).fill(favorite);
+  // const favourites = []
 
   return (
     <div className='favourites_container'>

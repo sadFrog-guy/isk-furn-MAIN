@@ -94,6 +94,7 @@
         font-weight: 600;
         font-family: 'Gilroy-bold', sans-serif;
         line-height: normal;
+        width: 40%;
       }
       .top_block {
         display: flex;
@@ -202,6 +203,7 @@
                 border-radius: 10px;
                 outline: none;
                 border: none;
+                background-color: transparent;
                 border: 1px solid #ddd;
 
                 color: #575757;
@@ -221,7 +223,7 @@
                 }
 
                 &.input_wrap {
-                  background-color: #fff;
+                  background-color: transparent;
                   display: flex;
                   align-items: center;
                   padding: 7.5px 10px;
@@ -313,6 +315,7 @@
             }
 
             .input_block > .input {
+              background: transparent;
               padding-left: 44px;
             }
 

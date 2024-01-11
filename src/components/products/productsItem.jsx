@@ -7,25 +7,34 @@ import { ReactComponent as HeartFilled } from '../icons/heart_filled.svg';
 import { UseBasket } from '../../context/BasketContext';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import DetailOfProduct from '../../pages/DetailOfProduct';
+import {useDispatch, useSelector} from "react-redux";
 
 const ProductsItem = ({ product }) => {
   const navigate = useNavigate();
   const { addToBasket } = UseBasket();
   const [isHeartActive, setHeartActive] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [testQuantity, setTestQuantity] = useState(0);
 
   const AddToBasket = (e) => {
     e.stopPropagation();
-    if (product.quantity <= 1) {
-      addToBasket(product);
-    } else {
-      product.quantity++;
-    }
+    // if (product.quantity <= 1) {
+    //   addToBasket(product);
+    // } else {
+    //   product.quantity++;
+    // }
+
+    setTestQuantity(testQuantity + 1)
   };
 
   const RemoveFromBasket = (e) => {
     e.stopPropagation();
-    if (product.quantity > 1) {
-      product.quantity--;
+    // if (product.quantity !== 1 && product.quantity > 0) {
+    //   product.quantity--;
+    // }
+
+    if (testQuantity !== 1 && testQuantity > 0) {
+      setTestQuantity(testQuantity - 1);
     }
   };
 
@@ -51,10 +60,17 @@ const ProductsItem = ({ product }) => {
               {isHeartActive ? <HeartFilled/> : <Heart />}
             </div>
             {product.image !== null ? (
-                <img onClick={navigateToDetail} src={product.image} alt={product.name} />
+                <img
+                    onLoad={() => setLoading(false)}
+                    onClick={navigateToDetail}
+                    src={product.image}
+                    alt={product.name}
+                />
             ) : (
-                <ProductDefault onClick={navigateToDetail} />
+                <ProductDefault onLoad={() => setLoading(false)} onClick={navigateToDetail} />
             )}
+
+            {loading && <div className='blank' onClick={navigateToDetail}/>}
           </div>
           <h3 onClick={navigateToDetail}>{product.name}</h3>
           <h2>
@@ -87,7 +103,8 @@ const ProductsItem = ({ product }) => {
             <div className='mathDiv'>
               <Minus onClick={(e) => RemoveFromBasket(e)} />
             </div>
-            <div className='quantity'>{product.quantity}</div>
+            {/*<div className='quantity'>{product.quantity}</div>*/}
+            <div className='quantity'>{testQuantity}</div>
             <div className='mathDiv' onClick={(e) => AddToBasket(e)}>
               <Plus />
             </div>

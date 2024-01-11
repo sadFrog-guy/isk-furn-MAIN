@@ -3,7 +3,7 @@ import api from "../../services/api/index"
 const products = {
     state: {
         data: [],
-        liked: [],
+        liked: {},
     },
     reducers: {
         setProducts: (state, payload) => ({

@@ -7,7 +7,7 @@ const NavigationPanel = () => {
     {
       icon: Icons.ProfileIcon,
       label: 'Мои данные',
-      href: '/my-account/',
+      href: '/my-account',
     },
     {
       icon: Icons.HeartIcon,

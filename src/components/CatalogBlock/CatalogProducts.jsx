@@ -5,6 +5,7 @@ import arrowL from "../icons/arrowPaginationL.svg";
 import { useDispatch, useSelector } from "react-redux";
 import ProductsItem from "../products/productsItem";
 import "../../styles/components/CatalogProducts.scss";
+import Loader from "../Loader/Loader";
 
 export default function CatalogProducts({ title }) {
   const {
@@ -13,9 +14,12 @@ export default function CatalogProducts({ title }) {
   const products = useSelector((state) => state.products.data);
 
   const [allProducts, setAllProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     const fetchData = async () => {
       await getProducts("?page=1");
+      setLoading(false);
     };
 
     fetchData();

@@ -8,6 +8,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import { Link } from 'react-router-dom';
 import api from '../../services/api';
 import { useQuery } from 'react-query';
+import Loader from "../Loader/Loader";
 
 export default function Products({ title }) {
   // const {
@@ -74,7 +75,10 @@ export default function Products({ title }) {
         {products.map((product) => (
           <ProductsItem key={product.id} product={product} />
         ))}
+
       </Slider>
+
+      {/*<Loader/>*/}
     </div>
   );
 }

@@ -2,20 +2,28 @@ import React, { useState } from "react"
 import { ReactComponent as Minus } from "../components/icons/minus.svg"
 import { ReactComponent as Plus } from "../components/icons/plus.svg"
 import { ReactComponent as Heart } from "../components/icons/heart.svg"
+import { ReactComponent as BrokeImage } from "../components/icons/brokeImage.svg"
 import { ReactComponent as ActiveHeart } from "../components/icons/activeHeart.svg"
-
+import { Skeleton } from 'primereact/skeleton';
 import Products from "../components/products/products"
 
-import img from "../components/icons/detail-main-img.svg"
-import img1 from "../components/icons/detail-img.svg"
+import brokenImage from '../assets/brokenImage.jpg'
 import img2 from "../components/icons/detail-img2.svg"
 
 import "../styles/components/DetailOfProduct.scss"
+import { useParams } from "react-router"
+import { useQuery } from "react-query"
+import api from "../services/api"
 
-const DetailOfProduct = ({ product }) => {
+const DetailOfProduct = () => {
+    const { id } = useParams()
+    const { data: product, isLoading, isError } = useQuery(
+        ['product', id],
+        () => api.get(`/api/getProduct/${id}`).then((res) => res.data.object),
+        { enabled: true }
+    );
+
     const [checked, setChecked] = useState(false)
-    // plug
-    const [heart, setHeart] = useState(false)
     const Check = () => {
         setChecked(!checked)
     }
@@ -25,7 +33,6 @@ const DetailOfProduct = ({ product }) => {
         title: "Зеркало Анталия (3 полки) (Дуб Крафт Бел) 500*700 (Four) Стандарт Анталия (3 полк..",
         price: "14200 с",
     }
-
     const complects = new Array(6).fill(complect)
 
     return (
@@ -34,58 +41,43 @@ const DetailOfProduct = ({ product }) => {
                 <div className="about_product">
                     <div className="left">
                         <div className="first-c">
-                            <img
-                                src={img2}
-                                alt="#"
-                                className="img"
-                            />
-                            <img
-                                src={img1}
-                                alt="#"
-                                className="img"
-                            />
-                            <img
-                                src={img2}
-                                alt="#"
-                                className="img"
-                            />
-                            <img
-                                src={img1}
-                                alt="#"
-                                className="img"
-                            />
-                            <img
-                                src={img1}
-                                alt="#"
-                                className="img"
-                            />
+                            {product?.images ?
+                                <img
+                                    src={img2}
+                                    alt="#"
+                                    className="img"
+                                /> :
+                                new Array(4).fill(0).map(() => (
+                                    <BrokeImage />
+                                ))
+                            }
                         </div>
                         <div className="second-c">
                             <img
-                                src={img}
+                                src={product?.image || brokenImage}
+                                style={{ width: product?.image ? '' : "100%" }}
                                 alt=""
                                 className="second-c__image"
                             />
                             <div
-                                onClick={() => {
-                                    {
-                                        heart ? setHeart(false) : setHeart(true)
-                                    }
-                                }}
+                                onClick={() => { }}
                                 className="heart"
                             >
-                                {heart ? <ActiveHeart /> : <Heart />}
+                                {false ? <ActiveHeart /> : <Heart />}
                             </div>
                         </div>
                     </div>
                     <div className="third-c">
-                        <h2>
-                            Зеркало Анталия (3 полки) (Дуб Крафт Бел) 500*700
-                            (Four) Стандарт Анталия (3 полки) (Дуб Крафт Бел)
-                        </h2>
+                        {
+                            isLoading ?
+                                <Skeleton height="2rem" className="mb-2"></Skeleton> :
+                                <h2>
+                                    {product?.name}
+                                </h2>
+                        }
                         <p>Комплекты:</p>
                         <div className="complects scrollbar_primary">
-                            {complects.map((el, index) => (
+                            {product?.productSet ? complects.map((el, index) => (
                                 <div
                                     key={index}
                                     className="complect"
@@ -104,22 +96,27 @@ const DetailOfProduct = ({ product }) => {
                                     <p className="title">{el.title}</p>
                                     <h5>{el.price}</h5>
                                 </div>
-                            ))}
+                            )) : <p className="empty">Комплекты в данном товаре отсутствуют</p>}
                         </div>
                     </div>
                     <div className="fourth-c">
                         <div className="top">
                             <p>
-                                <span className="discount">453990 с</span>
-                                <span className="price">
-                                    <s>459930 с</s>
+                                <span className="discount">{product?.promoPrice > 0 ? product?.promoPrice + 'c' : ''}</span>
+                                <span className={"price"}>
+                                    {product?.promoPrice > 0 ? 
+                                    <s>{product?.price} с</s> :
+                                    <b>{product?.price} с</b> 
+                                }
                                 </span>
                             </p>
                             <p className="articul">Артикул: ZGW131240</p>
                             <div className="line"></div>
                             <div className="lists">
                                 <ul>
-                                    <li className="first-li">В наличии</li>
+                                    <li style={{ color: !product?.active && '#df5333' }} className="first-li">
+                                        {product?.active ? 'В наличии' : 'нет в наличии'}
+                                    </li>
                                 </ul>
                                 <ul>
                                     <li className="second-li">Комплект</li>
@@ -138,18 +135,18 @@ const DetailOfProduct = ({ product }) => {
                 </div>
                 <div className="description">
                     <h2>Описание:</h2>
-                    <p>
-                        У нас появились совершенно новые модели гарнитуров и
-                        кофейных столов, чтобы сделать вашу гостиную еще более
-                        комфортной и элегантной. Мы предлагаем разнообразные
-                        стили и цветовые решения, чтобы подчеркнуть ваш
-                        уникальный вкус.У нас появились совершенно новые модели
-                        гарнитуров и кофейных столов, чтобы сделать вашу
-                        гостиную еще более комфортной и элегантной. У нас
-                        появились совершенно новые модели гарнитуров и кофейных
-                        столов, чтобы сделать вашу гостиную еще более комфортной
-                        и элегантной.
-                    </p>
+                    {isLoading && (
+                        <>
+                            <Skeleton className="mb-2"></Skeleton>
+                            <Skeleton width="10rem" className="mb-2"></Skeleton>
+                            <Skeleton width="5rem" className="mb-2"></Skeleton>
+                        </>
+                    )}
+                    {
+                        product?.description || isLoading ?
+                            <p>{product?.description}</p> :
+                            <p className="empty">Описание временно отсутствует</p>
+                    }
                 </div>
 
                 <div className="same">

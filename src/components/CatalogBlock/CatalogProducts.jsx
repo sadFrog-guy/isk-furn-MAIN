@@ -1,44 +1,32 @@
-import React, { useState, useEffect, useMemo } from "react";
+import { useState, useMemo } from "react";
 
-import arrowR from "../icons/arrowPaginationR.svg";
-import arrowL from "../icons/arrowPaginationL.svg";
-import { useDispatch, useSelector } from "react-redux";
-import ProductsItem from "../products/productsItem";
 import "../../styles/components/CatalogProducts.scss";
 import Loader from "../Loader/Loader";
+import { useParams } from "react-router";
+import { useQuery } from "react-query";
+import api from "../../services/api";
+import arrowR from "../icons/arrowPaginationR.svg";
+import arrowL from "../icons/arrowPaginationL.svg";
+import ProductsItem from "../products/productsItem";
 
 export default function CatalogProducts({ title }) {
-  const {
-    products: { getProducts },
-  } = useDispatch();
-  const products = useSelector((state) => state.products.data);
+  const { id } = useParams()
+  const { data: products, isLoading, isError } = useQuery(
+    'products',
+    () => api.get(`/api/getProducts?categoryId=${id}&page=1&limit=20`).then((res) => res.data.objects),
+    { enabled: true }
+  );
 
-  const [allProducts, setAllProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      await getProducts("?page=1");
-      setLoading(false);
-    };
-
-    fetchData();
-    // &categoryId=648debc5729053d175af919a
-  }, []);
-
-  useEffect(() => {
-    setAllProducts(products);
-  }, [products]);
 
   const [sortOrder, setSortOrder] = useState("desc");
   const sortedProducts = useMemo(() => {
-    const sorted = [...allProducts].sort((a, b) => {
+    const sorted = products?.sort((a, b) => {
       const priceA = a.price;
       const priceB = b.price;
       return sortOrder === "asc" ? priceA - priceB : priceB - priceA;
     });
     return sorted;
-  }, [allProducts, sortOrder]);
+  }, [products, sortOrder]);
 
   const toggleSortOrder = () => {
     const newSortOrder = sortOrder === "asc" ? "desc" : "asc";
@@ -49,7 +37,7 @@ export default function CatalogProducts({ title }) {
   const productsPerPage = 12;
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = sortedProducts.slice(
+  const currentProducts = sortedProducts?.slice(
     indexOfFirstProduct,
     indexOfLastProduct
   );
@@ -59,7 +47,7 @@ export default function CatalogProducts({ title }) {
   };
   const nextPage = () => {
     setCurrentPage((prev) =>
-      Math.min(prev + 1, Math.ceil(products.length / productsPerPage))
+      Math.min(prev + 1, Math.ceil(products?.length / productsPerPage))
     );
   };
 
@@ -67,7 +55,6 @@ export default function CatalogProducts({ title }) {
     setCurrentPage((prev) => Math.max(prev - 1, 1));
   };
 
-  console.log(products);
   return (
     <div className="catalogProducts container">
       <div className="catalogProducts-title">
@@ -82,16 +69,17 @@ export default function CatalogProducts({ title }) {
       </div>
       <div className="catalogProducts-content">
         <div className="catalogProducts-items">
-          {currentProducts.map((product) => (
+          {currentProducts?.map((product) => (
             <ProductsItem key={product.id} product={product} />
           ))}
         </div>
+
         <div className="pagination">
           <button onClick={prevPage} disabled={currentPage === 1}>
             <img src={arrowL} alt="ico" />
           </button>
           {Array.from(
-            { length: Math.ceil(products.length / productsPerPage) },
+            { length: Math.ceil(products?.length / productsPerPage) },
             (_, index) => (
               <button
                 key={index + 1}
@@ -105,7 +93,7 @@ export default function CatalogProducts({ title }) {
           <button
             onClick={nextPage}
             disabled={
-              currentPage === Math.ceil(products.length / productsPerPage)
+              currentPage === Math.ceil(products?.length / productsPerPage)
             }
           >
             <img src={arrowR} alt="ico" />

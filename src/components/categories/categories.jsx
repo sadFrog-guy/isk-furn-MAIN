@@ -14,6 +14,7 @@ const Categories = () => {
   useEffect(() => {
     getCategories();
   }, []);
+  console.log(categories);
 
   useEffect(() => {
     setSortedCategories(

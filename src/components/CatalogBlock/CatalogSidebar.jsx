@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import Slider from "rc-slider";
-import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { Link, useParams } from "react-router-dom";
 import { ReactComponent as IcoArrow } from "../icons/arrowCategory.svg";
 import "rc-slider/assets/index.css";
+import { useQuery } from "react-query";
+import api from './../../services/api/index';
 
 const CatalogSidebar = ({ title, display, setShow }) => {
+  const {id} = useParams()
   const [openCategories, setOpenCategories] = useState([]);
   const [price, setPrice] = useState([0, 100]);
   const [aPriceRange, aPSetPriceRange] = useState([0, 100]);
@@ -13,15 +15,24 @@ const CatalogSidebar = ({ title, display, setShow }) => {
   const handleSliderChange = (value) => {
     aPSetPriceRange(value);
   };
-  const products = useSelector((state) => state.products.data);
+  
+  
+  const { data:products, isLoading, isError } = useQuery(
+    'products',
+    () => api.get(`/api/getProducts?categoryId=${id}&page=1&limit=20`).then((res) => res.data.objects),
+    { enabled: true }
+  );
+  const categories = []
+  console.log(products);
+  // const products = useSelector((state) => state.products.data);
 
-  const categories = useSelector((state) => state.categories.data);
-  const {
-    categories: { getCategories },
-  } = useDispatch();
-  useEffect(() => {
-    getCategories();
-  }, []);
+  // const categories = useSelector((state) => state.categories.data);
+  // const {
+  //   categories: { getCategories },
+  // } = useDispatch();
+  // useEffect(() => {
+  // getCategories();
+  // }, []);
 
   const toggleCategory = (_id) => {
     if (openCategories.includes(_id)) {
@@ -37,7 +48,7 @@ const CatalogSidebar = ({ title, display, setShow }) => {
       categories.some((subCategory) => subCategory.parent === category._id)
   );
   useEffect(() => {
-    if (products.length > 0) {
+    if (products?.length > 0) {
       const allPrices = products.map((product) => product.price);
       const minPrice = Math.min(...allPrices);
       const maxPrice = Math.max(...allPrices);
@@ -47,7 +58,7 @@ const CatalogSidebar = ({ title, display, setShow }) => {
   }, [products]);
 
   // products.forEach((dsd) => {
-  //   console.log(dsd.category);
+  //   console.log(dsd);
   // });
   // console.log(categories);
   return (
@@ -58,6 +69,7 @@ const CatalogSidebar = ({ title, display, setShow }) => {
       <div className="category-sidebar_title">
         <h2>{title}</h2>
       </div>
+
       <div className="category-sidebar_blocks">
         <div className="category-sidebar_block">
           {filteredCategories.map((category) => (
@@ -67,12 +79,7 @@ const CatalogSidebar = ({ title, display, setShow }) => {
                   {category.name} <IcoArrow />
                 </button>
               )}
-
-              <ul
-                className={
-                  openCategories.includes(category._id) ? "open" : "closed"
-                }
-              >
+              <ul className={openCategories.includes(category._id) ? "open" : "closed"}>
                 {categories
                   .filter((subCategory) => subCategory.parent === category._id)
                   .map((subCategory) => (

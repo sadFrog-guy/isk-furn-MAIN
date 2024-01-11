@@ -11,23 +11,14 @@ import { useQuery } from 'react-query';
 import Loader from "../Loader/Loader";
 
 export default function Products({ title }) {
-  // const {
-  //   products: { getProducts },
-  // } = useDispatch();
-  // const products = useSelector((state) => state.products.data);
-
-  // useEffect(() => {
-  //   getProducts('?bestseller=true&page=1');
-  // }, []);
 
   const { data:products, isLoading, isError } = useQuery(
-    'users',
+    'products',
     () => api.get('/api/getProducts?bestseller=true&page=1').then((res) => res.data.objects),
     { enabled: true }
   );
-  console.log(products?.objects);
   if (isLoading) return <p>Loading...</p>;
-  if (isError) return <p>Error :(</p>;
+  if (isError) return <p>Error :</p>;
 
   var settings = {
     dots: false,

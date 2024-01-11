@@ -22,11 +22,11 @@ function App() {
 
         <Route path='/home' element={<Main />} />
         <Route path='/catalog' element={<Catalog />} />
-        <Route path='/catalog/category' element={<CategoryPage />} />
+        <Route path='/catalog/category/:id' element={<CategoryPage />} />
         <Route path='/addresses' element={<Addresses />} />
         <Route path='/basket' element={<Basket />} />
         <Route path='/my-account/*' element={isMobile ? <PersonalAccountMobile/> : <PersonalAccount />} />
-        <Route path='/product/*' element={<DetailOfProduct />} />
+        <Route path='/product/:id' element={<DetailOfProduct />} />
       </Routes>
     </Layout>
   );

@@ -1,9 +1,9 @@
 import React from 'react';
 import '../../styles/components/Loader.scss'
 
-const Loader = () => {
+const Loader = ({size = 32}) => {
   return (
-      <div className='loader'/>
+      <div className='loader' style={{width: `${size}px`, height: `${size}px`}}/>
   );
 };
 

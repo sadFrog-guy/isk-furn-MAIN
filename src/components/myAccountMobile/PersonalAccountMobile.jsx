@@ -14,7 +14,7 @@ const PersonalAccountMobile = () => {
   const [isProfile, setIsProfile] = useState(false);
 
   useEffect(() => {
-    setIsProfile(current.pathname === '/my-account')
+    setIsProfile(current.pathname === '/my-account' || current.pathname === '/my-account/')
   }, [current.pathname])
 
   return (

@@ -32,11 +32,13 @@
     }
     .container,
     .container-register {
-      width: 333px;
       display: inline-flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      @media (min-width: 400px) {
+        width: 333px;        
+      }
 
       .line {
         width: 100%;

@@ -51,6 +51,11 @@ const Register = () => {
     setRegister(false);
     setLoginWithPhone(true);
   };
+  const handleGoHome =() => {
+    setRegister(false);
+    setLoginWithPhone(false);
+    navigate('/home')
+  }
   const handleChange = (e, type) => {
     if (type === 'phone') {
       setUserData({ ...userData, [type]: e }); return
@@ -99,7 +104,7 @@ const Register = () => {
         <div className='register-container'>
           {!verify ? (
             <div className='container-register'>
-              <h1 className='headline'>
+              <h1 onClick={handleGoHome} className='headline'>
                 <IconLogo />
               </h1>
               <div className='line'></div>

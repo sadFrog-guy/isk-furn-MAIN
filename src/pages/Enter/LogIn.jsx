@@ -49,15 +49,16 @@ const LogIn = () => {
     if (!password) return false
     return (loginWithEmail && userDataEmail) || (loginWithPhone && userDataPhone)
   };
-  const close = () => {
+  const close = (path) => {
     setLoginWithPhone(false);
     setLoginWithEmail(false);
-    navigate('/my-account', { replace: true });
+    navigate(path, { replace: true });
   }
+
   const ClickEnterBtn = () => {
     if (loginWithPhone) {
       loginClientPhone({ phone: userDataPhone, password })
-        .then(res => close())
+        .then(res => close('/my-account'))
         .catch(err => {
           showToast(err?.response?.data?.msg)
           console.log(err)
@@ -65,7 +66,7 @@ const LogIn = () => {
       return
     }
     loginClientEmail({ email: userDataEmail, password })
-      .then(res => close())
+      .then(res => close('/my-account'))
       .catch(err => showToast(err?.response?.data?.msg))
   };
 
@@ -79,7 +80,7 @@ const LogIn = () => {
     <div className='wrapper'>
       <div className='login-container'>
         <div className='container'>
-          <h1 className='headline'>
+          <h1 onClick={() => close('/home')} className='headline'>
             <Logo />
           </h1>
           <div className='line'></div>

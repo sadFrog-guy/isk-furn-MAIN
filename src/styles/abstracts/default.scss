@@ -56,3 +56,23 @@ svg {
     padding: 0 15px;
   }
 }
+
+
+.scrollbar_primary::-webkit-scrollbar {
+  width: 4px;
+  border-radius: 5px;
+}
+/* Track */
+.scrollbar_primary::-webkit-scrollbar-track {
+background: #cdcdcd;
+border-radius: 5px;
+}
+/* Handle */
+.scrollbar_primary::-webkit-scrollbar-thumb {
+background: #4186b6;
+border-radius: 5px;
+}
+/* Handle on hover */
+.scrollbar_primary::-webkit-scrollbar-thumb:hover {
+background: #353535;
+}

@@ -84,7 +84,7 @@ const DetailOfProduct = ({ product }) => {
                             (Four) Стандарт Анталия (3 полки) (Дуб Крафт Бел)
                         </h2>
                         <p>Комплекты:</p>
-                        <div className="complects">
+                        <div className="complects scrollbar_primary">
                             {complects.map((el, index) => (
                                 <div
                                     key={index}

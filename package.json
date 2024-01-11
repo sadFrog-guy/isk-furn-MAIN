@@ -5,6 +5,7 @@
     "proxy": "http://localhost:3000",
     "dependencies": {
         "18": "^0.0.0",
+        "@reduxjs/toolkit": "^2.0.1",
         "@rematch/core": "^2.2.0",
         "@rematch/loading": "^2.1.2",
         "@testing-library/jest-dom": "^5.17.0",
@@ -21,6 +22,7 @@
         "react-dom": "^18.2.0",
         "react-hook-form": "^7.49.2",
         "react-phone-number-input": "^3.3.8",
+        "react-query": "^3.39.3",
         "react-redux": "^9.0.4",
         "react-router-dom": "^6.21.1",
         "react-scripts": "5.0.1",
